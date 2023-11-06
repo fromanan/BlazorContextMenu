@@ -22,6 +22,7 @@
 
 @code
 {
+    #region Parameters
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }
@@ -102,6 +103,9 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    #endregion
+
+    #region Properties
 
     protected string ClassCalc
     {
@@ -136,6 +140,11 @@
     protected string Template { get; set; }
     protected ContextMenu RootMenu { get; set; }
     protected ContextMenuBase ParentMenu { get; set; }
+
+
+    #endregion
+    
+    #region Protected Methods
 
     protected override async Task OnInitializedAsync()
     {
@@ -187,4 +196,6 @@
             }
         }
     }
+
+    #endregion
 }

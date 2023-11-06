@@ -19,10 +19,21 @@
 
 @code
 {
+    #region Parameters
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    #endregion
+
+    #region Properties
+
     protected override string BaseClass => "blazor-context-submenu blazor-context-menu__wrapper";
+
+    #endregion
+
+    #region Overrides
+
     protected override void OnInitialized()
     {
         if (string.IsNullOrEmpty(Id))
@@ -31,4 +42,6 @@
         }
         base.OnInitialized();
     }
+
+    #endregion
 }

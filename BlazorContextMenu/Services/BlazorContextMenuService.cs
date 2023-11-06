@@ -37,18 +37,25 @@ namespace BlazorContextMenu.Services;
 
 public class BlazorContextMenuService : IBlazorContextMenuService
 {
+    #region Data Members
+
     private readonly IJSRuntime _jSRuntime;
+    
     private readonly IContextMenuStorage _contextMenuStorage;
 
     #endregion
 
     #region Constructor
-
+    
     public BlazorContextMenuService(IJSRuntime jSRuntime, IContextMenuStorage contextMenuStorage)
     {
         _jSRuntime = jSRuntime;
         _contextMenuStorage = contextMenuStorage;
     }
+
+    #endregion
+
+    #region Public Methods
 
     public async Task HideMenu(string id)
     {
@@ -77,4 +84,6 @@ public class BlazorContextMenuService : IBlazorContextMenuService
     }
 
     public async Task<bool> IsMenuShown(string id) => await _jSRuntime.InvokeAsync<bool>("blazorContextMenu.IsMenuShown", id);
+
+    #endregion
 }

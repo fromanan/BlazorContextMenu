@@ -2,6 +2,8 @@
 
 public class MenuRenderingContext
 {
+    #region Constructor
+
     public MenuRenderingContext(string contextMenuId, string contextMenuTargetId, string x, string y, ContextMenuTrigger trigger, object data)
     {
         ContextMenuId = contextMenuId;
@@ -12,6 +14,9 @@ public class MenuRenderingContext
         Y = y;
     }
 
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// The <see cref="ContextMenuTrigger"/> that triggered this menu.
@@ -42,4 +47,6 @@ public class MenuRenderingContext
     /// Extra data that were passed to the <see cref="ContextMenu"/>.
     /// </summary>
     public object Data { get; protected set; }
+    
+    #endregion
 }

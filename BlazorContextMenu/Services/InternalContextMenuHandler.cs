@@ -1,23 +1,32 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
-namespace BlazorContextMenu.Services
-{
-    bool ReferencePassedToJs { get; set; }
-    Task<bool> HideMenu(string id);
-    Task ShowMenu(string id, string x, string y, string targetId = null, DotNetObjectReference<ContextMenuTrigger> trigger = null);
-}
+namespace BlazorContextMenu.Services;
 
 public class InternalContextMenuHandler : IInternalContextMenuHandler
 {
+    #region Data Members
+
     private readonly IContextMenuStorage _contextMenuStorage;
+
+    #endregion
+
+    #region Properties
+
+    public bool ReferencePassedToJs { get; set; } = false;
+
+    #endregion
+
+    #region Constructor
 
     public InternalContextMenuHandler(IContextMenuStorage contextMenuStorage)
     {
         _contextMenuStorage = contextMenuStorage;
     }
 
-    public bool ReferencePassedToJs { get; set; } = false;
+    #endregion
+
+    #region JavaScript Methods
 
     /// <summary>
     /// Shows the context menu at the specified coordinates.
@@ -53,4 +62,6 @@ public class InternalContextMenuHandler : IInternalContextMenuHandler
 
         return true;
     }
+
+    #endregion
 }

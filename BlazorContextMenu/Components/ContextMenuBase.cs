@@ -8,11 +8,26 @@ namespace BlazorContextMenu;
 
 public abstract class ContextMenuBase : MenuTreeComponent
 {
-    [Inject] private BlazorContextMenuSettings settings { get; set; }
-    [Inject] private IContextMenuStorage contextMenuStorage { get; set; }
-    [Inject] private IInternalContextMenuHandler contextMenuHandler { get; set; }
-    [Inject] private IJSRuntime jsRuntime { get; set; }
-    [Inject] private IMenuTreeTraverser menuTreeTraverser { get; set; }
+    #region Dependency Injection
+
+    [Inject]
+    private BlazorContextMenuSettings Settings { get; set; }
+
+    [Inject]
+    private IContextMenuStorage ContextMenuStorage { get; set; }
+
+    [Inject]
+    private IInternalContextMenuHandler ContextMenuHandler { get; set; }
+
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; }
+
+    [Inject]
+    private IMenuTreeTraverser MenuTreeTraverser { get; set; }
+
+    #endregion
+
+    #region Parameters
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }
@@ -121,6 +136,10 @@ public abstract class ContextMenuBase : MenuTreeComponent
     [CascadingParameter(Name = "CascadingAnimation")]
     protected Animation? CascadingAnimation { get; set; }
 
+    #endregion
+
+    #region Properties
+
     protected bool IsShowing;
     protected string X { get; set; }
     protected string Y { get; set; }
@@ -149,9 +168,11 @@ public abstract class ContextMenuBase : MenuTreeComponent
         {
             animation = settings.GetTemplate(GetActiveTemplate()).Animation;
         }
+    #endregion
 
         return animation.Value;
     }
+    #region Protected Methods
 
     internal string GetActiveTemplate()
     {
@@ -232,6 +253,10 @@ public abstract class ContextMenuBase : MenuTreeComponent
     }
 
     public override void Dispose()
+    #endregion
+
+    #region Internal Methods
+
     {
         base.Dispose();
         contextMenuStorage.Unregister(this);
@@ -297,4 +322,11 @@ public abstract class ContextMenuBase : MenuTreeComponent
     {
         return Trigger;
     }
+
+    #endregion
+    
+    #region IDisposable Implementation
+
+    
+    #endregion
 }

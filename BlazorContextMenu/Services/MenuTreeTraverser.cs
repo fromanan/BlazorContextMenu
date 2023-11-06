@@ -12,6 +12,8 @@ public interface IMenuTreeTraverser
 
 public class MenuTreeTraverser : IMenuTreeTraverser
 {
+    #region Public Methods
+
     public ContextMenu GetRootContextMenu(MenuTreeComponent menuTreeComponent)
     {
         if (menuTreeComponent.ParentComponent == null) return null;
@@ -38,4 +40,5 @@ public class MenuTreeTraverser : IMenuTreeTraverser
         return false;
     }
 
+    #endregion
 }

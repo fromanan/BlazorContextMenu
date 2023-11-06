@@ -11,6 +11,7 @@
 
 @code
 {
+    #region Parameters
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }
@@ -45,6 +46,10 @@
     [Parameter]
     public string HrCssClass { get; set; }
 
+    #endregion
+
+    #region Attributes
+
     protected string Template { get; set; }
 
     protected string ClassCalc
@@ -69,6 +74,10 @@
         }
     }
 
+    #endregion
+
+    #region Overrides
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -81,4 +90,6 @@
         var parentMenu = menuTreeTraverser.GetClosestContextMenu(this);
         Template = parentMenu.GetActiveTemplate();
     }
+
+    #endregion
 }

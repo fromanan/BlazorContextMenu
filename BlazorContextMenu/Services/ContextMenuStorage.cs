@@ -11,7 +11,13 @@ public interface IContextMenuStorage
 
 public class ContextMenuStorage : IContextMenuStorage
 {
-    private Dictionary<string, ContextMenuBase> _initializedMenus = new Dictionary<string, ContextMenuBase>();
+    #region Data Members
+
+    private readonly Dictionary<string, ContextMenuBase> _initializedMenus = new();
+
+    #endregion
+
+    #region Public Methods
 
     public void Register(ContextMenuBase menu)
     {
@@ -32,4 +38,5 @@ public class ContextMenuStorage : IContextMenuStorage
         return null;
     }
 
+    #endregion
 }
