@@ -55,7 +55,7 @@ Make sure that there is a call to `app.UseStaticFiles();` in your server project
     <Item OnClick="@OnClick">Item 1</Item>
     <Item OnClick="@OnClick">Item 2</Item>
     <Item OnClick="@OnClick" Enabled="false">Item 3 (disabled)</Item>
-    <Seperator />
+    <Separator />
     <Item>Submenu
         <SubMenu>
             <Item OnClick="@OnClick">Submenu Item 1</Item>
@@ -239,7 +239,7 @@ public class Startup
 <details><summary>Upgrading from 0.1 to 0.2</summary>
     
 >- Rename "MenuItem" to "Item".
->- Rename "MenuSeperator" to "Seperator".
+>- Rename "MenuSeparator" to "Separator".
 >- Replace "MenuItemWithSubmenu" with a regular "Item" component.
 </details>
 
@@ -464,7 +464,7 @@ public class Startup
     
 >- Updated to Blazor 0.3.0.
 >- Renamed "MenuItem" to "Item" to avoid conflicts with the html element "menuitem".
->- Renamed "MenuSeperator" to "Seperator" for consistency.
+>- Renamed "MenuSeparator" to "Separator" for consistency.
 >- Removed "MenuItemWithSubmenu" (just use a regular "Item").
 </details>
 

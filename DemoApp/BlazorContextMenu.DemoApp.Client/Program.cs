@@ -30,7 +30,7 @@ namespace BlazorContextMenu.DemoApp.Client
                     template.MenuCssClass = "pink-menu";
                     template.MenuItemCssClass = "pink-menu-item";
                     template.MenuItemDisabledCssClass = "pink-menu-item--disabled";
-                    template.SeperatorHrCssClass = "pink-menu-seperator-hr";
+                    template.SeparatorHrCssClass = "pink-menu-separator-hr";
                     template.MenuItemWithSubMenuCssClass = "pink-menu-item--with-submenu";
                     template.Animation = Animation.Slide;
                 });

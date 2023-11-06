@@ -29,7 +29,7 @@ namespace BlazorContextMenu.RazorComponentsTestApp
                 {
                     defaultTemplate.MenuCssClass = "my-menu";
                     defaultTemplate.MenuItemCssClass = "my-menu-item";
-                    defaultTemplate.SeperatorCssClass = "my-menu-seperator";
+                    defaultTemplate.SeparatorCssClass = "my-menu-separator";
                 });
 
                 options.ConfigureTemplate("red", template =>
@@ -37,7 +37,7 @@ namespace BlazorContextMenu.RazorComponentsTestApp
                     template.MenuCssClass = "red-menu";
                     template.MenuItemCssClass = "red-menu-item";
                     template.MenuItemDisabledCssClass = "red-menu-item--disabled";
-                    template.SeperatorHrCssClass = "red-menu-seperator-hr";
+                    template.SeparatorHrCssClass = "red-menu-separator-hr";
                     template.MenuItemWithSubMenuCssClass = "red-menu-item--with-submenu";
                     template.Animation = Animation.FadeIn;
                 });

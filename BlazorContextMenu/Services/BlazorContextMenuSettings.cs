@@ -58,14 +58,14 @@ namespace BlazorContextMenu
         public string MenuItemDisabledCssClass { get; set; } = "blazor-context-menu__item--default-disabled";
 
         /// <summary>
-        /// Allows you to override the default css class of the menu <see cref="Seperator"/>'s li element, for full customization.
+        /// Allows you to override the default css class of the menu <see cref="Separator"/>'s li element, for full customization.
         /// </summary>
-        public string SeperatorCssClass { get; set; } = "blazor-context-menu__seperator";
+        public string SeparatorCssClass { get; set; } = "blazor-context-menu__separator";
 
         /// <summary>
-        /// Allows you to override the default css class of the menu <see cref="Seperator"/>'s hr element, for full customization.
+        /// Allows you to override the default css class of the menu <see cref="Separator"/>'s hr element, for full customization.
         /// </summary>
-        public string SeperatorHrCssClass { get; set; } = "blazor-context-menu__seperator__hr";
+        public string SeparatorHrCssClass { get; set; } = "blazor-context-menu__separator__hr";
     }
 
     public class BlazorContextMenuTemplate
@@ -106,14 +106,14 @@ namespace BlazorContextMenu
         public string MenuItemDisabledCssClass { get; set; }
 
         /// <summary>
-        /// Additional css class for the menu <see cref="Seperator"/>'s li element. Use this to extend the default css.
+        /// Additional css class for the menu <see cref="Separator"/>'s li element. Use this to extend the default css.
         /// </summary>
-        public string SeperatorCssClass { get; set; }
+        public string SeparatorCssClass { get; set; }
 
         /// <summary>
-        /// Additional css class for the menu <see cref="Seperator"/>'s hr element. Use this to extend the default css.
+        /// Additional css class for the menu <see cref="Separator"/>'s hr element. Use this to extend the default css.
         /// </summary>
-        public string SeperatorHrCssClass { get; set; }
+        public string SeparatorHrCssClass { get; set; }
 
         /// <summary>
         /// Allows you to override the default x position offset of the submenu (i.e. the distance of the submenu from it's parent menu).
