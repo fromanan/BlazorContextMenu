@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorContextMenu
+namespace BlazorContextMenu;
+
+public enum MouseButtonTrigger
 {
-    public enum MouseButtonTrigger
-    {
-        Right = 0,
-        Left = 1,
-        Both = 2,
-        DoubleClick=3
-    }
+    Right = 0,
+    Left = 1,
+    Both = 2,
+    DoubleClick=3
 }

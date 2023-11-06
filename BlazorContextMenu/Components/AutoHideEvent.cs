@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorContextMenu
+namespace BlazorContextMenu;
+
+public enum AutoHideEvent
 {
-    public enum AutoHideEvent
-    {
-        MouseDown,  //default
-        MouseUp
-    }
+    MouseDown,  //default
+    MouseUp
 }

@@ -2,37 +2,36 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorContextMenu.Services
+namespace BlazorContextMenu.Services;
+
+public interface IContextMenuStorage
 {
-    public interface IContextMenuStorage
+    ContextMenuBase GetMenu(string id);
+    void Register(ContextMenuBase menu);
+    void Unregister(ContextMenuBase menu);
+}
+
+public class ContextMenuStorage : IContextMenuStorage
+{
+    private Dictionary<string, ContextMenuBase> _initializedMenus = new Dictionary<string, ContextMenuBase>();
+
+    public void Register(ContextMenuBase menu)
     {
-        ContextMenuBase GetMenu(string id);
-        void Register(ContextMenuBase menu);
-        void Unregister(ContextMenuBase menu);
+        _initializedMenus[menu.Id] = menu;
+    }
+    public void Unregister(ContextMenuBase menu)
+    {
+        _initializedMenus.Remove(menu.Id);
     }
 
-    public class ContextMenuStorage : IContextMenuStorage
+    public ContextMenuBase GetMenu(string id)
     {
-        private Dictionary<string, ContextMenuBase> _initializedMenus = new Dictionary<string, ContextMenuBase>();
-
-        public void Register(ContextMenuBase menu)
+        if (_initializedMenus.ContainsKey(id))
         {
-            _initializedMenus[menu.Id] = menu;
-        }
-        public void Unregister(ContextMenuBase menu)
-        {
-            _initializedMenus.Remove(menu.Id);
+            return _initializedMenus[id];
         }
 
-        public ContextMenuBase GetMenu(string id)
-        {
-            if (_initializedMenus.ContainsKey(id))
-            {
-                return _initializedMenus[id];
-            }
-
-            return null;
-        }
-
+        return null;
     }
+
 }
