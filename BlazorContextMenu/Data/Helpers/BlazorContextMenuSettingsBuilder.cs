@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlazorContextMenu.Services;
 
 namespace BlazorContextMenu;
 
@@ -22,7 +18,7 @@ public class BlazorContextMenuSettingsBuilder
     /// <returns></returns>
     public BlazorContextMenuSettingsBuilder ConfigureTemplate(Action<BlazorContextMenuTemplate> templateOptions)
     {
-        var template = _settings.GetTemplate(BlazorContextMenuSettings.DefaultTemplateName);
+        BlazorContextMenuTemplate template = _settings.GetTemplate(BlazorContextMenuSettings.DEFAULT_TEMPLATE_NAME);
         templateOptions(template);
         return this;
     }
@@ -33,14 +29,16 @@ public class BlazorContextMenuSettingsBuilder
     /// <param name="templateName"></param>
     /// <param name="templateOptions"></param>
     /// <returns></returns>
-    public BlazorContextMenuSettingsBuilder ConfigureTemplate(string templateName,Action<BlazorContextMenuTemplate> templateOptions)
+    public BlazorContextMenuSettingsBuilder ConfigureTemplate(string templateName,
+        Action<BlazorContextMenuTemplate> templateOptions)
     {
-        if (_settings.Templates.ContainsKey(templateName)) throw new Exception($"Template '{templateName}' is already defined");
-        var template = new BlazorContextMenuTemplate();
+        if (_settings.Templates.ContainsKey(templateName))
+            throw new Exception($"Template '{templateName}' is already defined");
+
+        BlazorContextMenuTemplate template = new();
         templateOptions(template);
-            
         _settings.Templates.Add(templateName, template);
+
         return this;
     }
-
 }

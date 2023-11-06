@@ -1,10 +1,8 @@
 ﻿using BlazorContextMenu;
 using BlazorContextMenu.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
@@ -17,10 +15,11 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddBlazorContextMenu(this IServiceCollection services, Action<BlazorContextMenuSettingsBuilder> settings)
+    public static IServiceCollection AddBlazorContextMenu(this IServiceCollection services,
+        Action<BlazorContextMenuSettingsBuilder> settings)
     {
-        var settingsObj = new BlazorContextMenuSettings();
-        var settingsBuilder = new BlazorContextMenuSettingsBuilder(settingsObj);
+        BlazorContextMenuSettings settingsObj = new();
+        BlazorContextMenuSettingsBuilder settingsBuilder = new(settingsObj);
         settings(settingsBuilder);
         services.AddSingleton(settingsObj);
 
@@ -30,10 +29,9 @@ public static class ServiceCollectionExtensions
 
     private static void CommonRegistrations(IServiceCollection services)
     {
-        services.AddSingleton<IMenuTreeTraverser>(x=> new MenuTreeTraverser());
+        services.AddSingleton<IMenuTreeTraverser>(_ => new MenuTreeTraverser());
         services.AddScoped<IInternalContextMenuHandler, InternalContextMenuHandler>();
         services.AddScoped<IContextMenuStorage, ContextMenuStorage>();
         services.AddScoped<IBlazorContextMenuService, BlazorContextMenuService>();
     }
-
 }

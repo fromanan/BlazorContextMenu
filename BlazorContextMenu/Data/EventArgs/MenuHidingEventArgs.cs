@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace BlazorContextMenu;
 
-namespace BlazorContextMenu;
-
-public class MenuAppearingEventArgs
+public class MenuHidingEventArgs
 {
-    public MenuAppearingEventArgs(string contextMenuId, string contextMenuTargetId, string x, string y, ContextMenuTrigger trigger, object data)
-    {
-        ContextMenuId = contextMenuId;
-        ContextMenuTargetId = contextMenuTargetId;
-        ContextMenuTrigger = trigger;
-        Data = data;
-        X = x;
-        Y = y;
-    }
+    #region Properties
 
     /// <summary>
     /// The <see cref="ContextMenuTrigger"/> that triggered this menu.
@@ -42,12 +30,29 @@ public class MenuAppearingEventArgs
     public string ContextMenuTargetId { get; protected set; }
 
     /// <summary>
-    /// If set to true, then the <see cref="ContextMenu"/> will not appear.
+    /// If set to true, then the <see cref="ContextMenu"/> will not hide.
     /// </summary>
-    public bool PreventShow { get; set; }
+    public bool PreventHide { get; set; }
 
     /// <summary>
     /// Extra data that were passed to the <see cref="ContextMenu"/>.
     /// </summary>
     public object Data { get; protected set; }
+
+    #endregion
+
+    #region Constructor
+
+    public MenuHidingEventArgs(string contextMenuId, string contextMenuTargetId, string x, string y,
+        ContextMenuTrigger trigger, object data)
+    {
+        ContextMenuId = contextMenuId;
+        ContextMenuTargetId = contextMenuTargetId;
+        ContextMenuTrigger = trigger;
+        Data = data;
+        X = x;
+        Y = y;
+    }
+
+    #endregion
 }

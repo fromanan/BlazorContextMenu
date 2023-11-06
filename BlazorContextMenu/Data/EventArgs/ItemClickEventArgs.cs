@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorContextMenu;
 
 public class ItemClickEventArgs
 {
-    public ItemClickEventArgs(MouseEventArgs mouseEvent,string contextMenuId, string contextMenuTargetId,
+    #region Properties
+
+    public ItemClickEventArgs(MouseEventArgs mouseEvent, string contextMenuId, string contextMenuTargetId,
         ContextMenuTrigger trigger, ElementReference menuItemElement, Item menuItem, object data)
     {
         MouseEvent = mouseEvent;
@@ -21,16 +19,20 @@ public class ItemClickEventArgs
         Data = data;
     }
 
+    #endregion
+    
+    #region Constructor
+
     /// <summary>
     /// The args of the mouse event.
     /// </summary>
     public MouseEventArgs MouseEvent { get; protected set; }
-        
+
     /// <summary>
     /// If set to true, then the ContextMenu will not close after clicking on the item.
     /// </summary>
     public bool IsCanceled { get; set; }
-        
+
     /// <summary>
     /// The id of the <see cref="ContextMenu"/> that contains the triggering item.
     /// </summary>
@@ -60,4 +62,6 @@ public class ItemClickEventArgs
     /// Extra data that were passed to the <see cref="ContextMenu"/>.
     /// </summary>
     public object Data { get; protected set; }
+
+    #endregion
 }

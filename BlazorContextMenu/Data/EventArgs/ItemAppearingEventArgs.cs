@@ -1,24 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BlazorContextMenu;
+﻿namespace BlazorContextMenu;
 
 public class ItemAppearingEventArgs
 {
-    public ItemAppearingEventArgs(string contextMenuId, string contextMenuTargetId, 
-        ContextMenuTrigger trigger, Item menuItem, bool isVisible, 
-        bool isEnabled, object data)
-    {
-        ContextMenuId = contextMenuId;
-        ContextMenuTargetId = contextMenuTargetId;
-        ContextMenuTrigger = trigger;
-        MenuItem = menuItem;
-        IsEnabled = isEnabled;
-        Data = data;
-        IsVisible = isVisible;
-    }
+    #region Properties
 
     /// <summary>
     /// The id of the <see cref="ContextMenu"/> that contains the triggering item.
@@ -54,4 +38,22 @@ public class ItemAppearingEventArgs
     /// Extra data that were passed to the <see cref="ContextMenu"/>.
     /// </summary>
     public object Data { get; protected set; }
+
+    #endregion
+    
+    #region Constructor
+
+    public ItemAppearingEventArgs(string contextMenuId, string contextMenuTargetId, ContextMenuTrigger trigger, 
+        Item menuItem, bool isVisible, bool isEnabled, object data)
+    {
+        ContextMenuId = contextMenuId;
+        ContextMenuTargetId = contextMenuTargetId;
+        ContextMenuTrigger = trigger;
+        MenuItem = menuItem;
+        IsEnabled = isEnabled;
+        Data = data;
+        IsVisible = isVisible;
+    }
+
+    #endregion
 }
