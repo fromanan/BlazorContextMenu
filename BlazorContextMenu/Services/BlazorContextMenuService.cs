@@ -1,13 +1,11 @@
+using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 namespace BlazorContextMenu.Services;
 
-public interface IBlazorContextMenuService
-{
     /// <summary>
-    /// Hides a <see cref="ContextMenu" /> programmatically.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

@@ -1,9 +1,7 @@
-﻿using BlazorContextMenu.Services;
+﻿using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
-namespace BlazorContextMenu.Services;
-
-public interface IInternalContextMenuHandler
+namespace BlazorContextMenu.Services
 {
     bool ReferencePassedToJs { get; set; }
     Task<bool> HideMenu(string id);
