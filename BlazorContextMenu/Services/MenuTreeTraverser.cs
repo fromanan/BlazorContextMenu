@@ -3,13 +3,6 @@ using System.Linq;
 
 namespace BlazorContextMenu.Services;
 
-public interface IMenuTreeTraverser
-{
-    ContextMenuBase GetClosestContextMenu(MenuTreeComponent menuTreeComponent);
-    ContextMenu GetRootContextMenu(MenuTreeComponent menuTreeComponent);
-    bool HasSubMenu(MenuTreeComponent menuTreeComponent);
-}
-
 public class MenuTreeTraverser : IMenuTreeTraverser
 {
     #region Public Methods

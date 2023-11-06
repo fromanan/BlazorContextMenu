@@ -2,13 +2,6 @@
 
 namespace BlazorContextMenu.Services;
 
-public interface IContextMenuStorage
-{
-    ContextMenuBase GetMenu(string id);
-    void Register(ContextMenuBase menu);
-    void Unregister(ContextMenuBase menu);
-}
-
 public class ContextMenuStorage : IContextMenuStorage
 {
     #region Data Members
