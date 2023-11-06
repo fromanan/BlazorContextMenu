@@ -37,7 +37,7 @@ public class ContextMenuTrigger : ComponentBase, IDisposable
     /// The Id of the <see cref="ContextMenu" /> to open. This parameter is required.
     /// </summary>
     [Parameter]
-    public string MenuId { get; set; }
+    public required string MenuId { get; set; }
 
     /// <summary>
     /// Additional css class for the trigger's wrapper element.
@@ -85,6 +85,8 @@ public class ContextMenuTrigger : ComponentBase, IDisposable
 
     #region Properties
 
+    private string EventHandler =>
+        $"blazorContextMenu.OnContextMenu(event, '{MenuId.Replace("'", "\\'")}', {StopPropagation.ToWeb()});";
 
     #endregion
     
@@ -116,20 +118,19 @@ public class ContextMenuTrigger : ComponentBase, IDisposable
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!internalContextMenuHandler.ReferencePassedToJs)
+        if (!InternalContextMenuHandler.ReferencePassedToJs)
         {
-            await jsRuntime.InvokeAsync<object>("blazorContextMenu.SetMenuHandlerReference", DotNetObjectReference.Create(internalContextMenuHandler));
-            internalContextMenuHandler.ReferencePassedToJs = true;
+            await JsRuntime.InvokeAsync<object>("blazorContextMenu.SetMenuHandlerReference",
+                DotNetObjectReference.Create(InternalContextMenuHandler));
+            InternalContextMenuHandler.ReferencePassedToJs = true;
         }
 
-        if (dotNetObjectRef == null)
-        {
-            dotNetObjectRef = DotNetObjectReference.Create(this);
-        }
+        _dotNetObjectRef ??= DotNetObjectReference.Create(this);
 
-        if (contextMenuTriggerElementRef != null)
+        if (_contextMenuTriggerElementRef is not null)
         {
-            await jsRuntime.InvokeAsync<object>("blazorContextMenu.RegisterTriggerReference", contextMenuTriggerElementRef.Value, dotNetObjectRef);
+            await JsRuntime.InvokeAsync<object>("blazorContextMenu.RegisterTriggerReference",
+                _contextMenuTriggerElementRef.Value, _dotNetObjectRef);
         }
     }
 
@@ -139,11 +140,11 @@ public class ContextMenuTrigger : ComponentBase, IDisposable
 
     public void Dispose()
     {
-        if (dotNetObjectRef != null)
-        {
-            dotNetObjectRef.Dispose();
-            dotNetObjectRef = null;
-        }
+        GC.SuppressFinalize(this);
+        if (_dotNetObjectRef is null)
+            return;
+        _dotNetObjectRef.Dispose();
+        _dotNetObjectRef = null;
     }
 
     #endregion

@@ -38,13 +38,11 @@ public class InternalContextMenuHandler : IInternalContextMenuHandler
     /// <param name="trigger">Optional: The <see cref="ContextMenuTrigger"/> that opened the menu.</param>
     /// <returns></returns>
     [JSInvokable]
-    public async Task ShowMenu(string id, string x, string y, string targetId = null, DotNetObjectReference<ContextMenuTrigger> trigger = null)
+    public async Task ShowMenu(string id, string x, string y, string targetId = null,
+        DotNetObjectReference<ContextMenuTrigger> trigger = null)
     {
-        var menu = _contextMenuStorage.GetMenu(id);
-        if (menu != null)
-        {
+        if (_contextMenuStorage.GetMenu(id) is { } menu)
             await menu.Show(x, y, targetId, trigger?.Value);
-        }
     }
 
     /// <summary>
@@ -54,13 +52,7 @@ public class InternalContextMenuHandler : IInternalContextMenuHandler
     [JSInvokable]
     public async Task<bool> HideMenu(string id)
     {
-        var menu = _contextMenuStorage.GetMenu(id);
-        if (menu != null)
-        {
-            return await menu.Hide();
-        }
-
-        return true;
+        return _contextMenuStorage.GetMenu(id) is not { } menu || await menu.Hide();
     }
 
     #endregion

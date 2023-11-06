@@ -2,13 +2,13 @@
 
 @namespace BlazorContextMenu
 
-<div @attributes="@Attributes" class="@($"{BaseClass} {ClassCalc} {DisplayClassCalc}")" id="@Id" style="@($"left:{X}px;top:{Y}px;z-index:{ZIndex};")" data-autohide="@AutoHide.ToString().ToLower()">
+<div @attributes="@Attributes" class="@Classes" id="@Id" style="@PositionStyles" data-autohide="@AutoHide.ToWeb()">
     @if (IsShowing)
     {
         <ul class="@ListClassCalc">
             <CascadingValue Value="(MenuTreeComponent)this" Name="ParentComponent">
-                <CascadingValue Value="@(Template != null ? Template : CascadingTemplate)" Name="CascadingTemplate">
-                    <CascadingValue Value="@(Animation.HasValue ? Animation.Value : CascadingAnimation)" Name="CascadingAnimation">
+                <CascadingValue Value="@Template" Name="CascadingTemplate">
+                    <CascadingValue Value="@Animation" Name="CascadingAnimation">
                         @ChildContent
                     </CascadingValue>
                 </CascadingValue>
@@ -28,6 +28,10 @@
 
     #region Properties
 
+    private new string Template => base.Template ?? CascadingTemplate;
+
+    private new Animation? Animation => base.Animation ?? CascadingAnimation;
+
     protected override string BaseClass => "blazor-context-submenu blazor-context-menu__wrapper";
 
     #endregion
@@ -36,10 +40,9 @@
 
     protected override void OnInitialized()
     {
-        if (string.IsNullOrEmpty(Id))
-        {
+        if (Id.IsNullOrEmpty())
             Id = Guid.NewGuid().ToString();
-        }
+        
         base.OnInitialized();
     }
 

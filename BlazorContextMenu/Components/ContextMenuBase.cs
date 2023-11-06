@@ -38,7 +38,7 @@ public abstract class ContextMenuBase : MenuTreeComponent
     /// The id that the <see cref="ContextMenuTrigger" /> will use to bind to. This parameter is required
     /// </summary>
     [Parameter]
-    public string Id { get; set; }
+    public required string Id { get; set; }
 
     /// <summary>
     /// The name of the template to use for this <see cref="ContextMenu" /> and all its <see cref="SubMenu" />.
@@ -98,7 +98,7 @@ public abstract class ContextMenuBase : MenuTreeComponent
     public string ListCssClass { get; set; }
 
     /// <summary>
-    /// Allows you to set the <see cref="Services.Animation" /> used by this <see cref="ContextMenu" /> and all its <see cref="SubMenu" />
+    /// Allows you to set the <see cref="BlazorContextMenu.Animation" /> used by this <see cref="ContextMenu" /> and all its <see cref="SubMenu" />
     /// </summary>
     [Parameter]
     public Animation? Animation { get; set; }
@@ -151,165 +151,158 @@ public abstract class ContextMenuBase : MenuTreeComponent
     {
         get
         {
-            var template = settings.GetTemplate(GetActiveTemplate());
-            return Helpers.AppendCssClasses((OverrideDefaultCssClass ?? template.DefaultCssOverrides.MenuCssClass),
-                (CssClass ?? template.MenuCssClass));
+            BlazorContextMenuTemplate template = Settings.GetTemplate(GetActiveTemplate());
+            return Helpers.AppendCssClasses(OverrideDefaultCssClass ?? template.DefaultCssOverrides.MenuCssClass,
+                CssClass ?? template.MenuCssClass);
         }
     }
+    
+    protected string PositionStyles => $"left:{X}px;top:{Y}px;z-index:{ZIndex};";
+    
+    protected string Classes => $"{BaseClass} {ClassCalc} {DisplayClassCalc}";
+
+    #endregion
+
+    #region Protected Methods
 
     protected Animation GetActiveAnimation()
     {
-        var animation = CascadingAnimation;
-        if (this.Animation != null)
-        {
-            animation = this.Animation;
-        }
-        if (animation == null)
-        {
-            animation = settings.GetTemplate(GetActiveTemplate()).Animation;
-        }
-    #endregion
-
-        return animation.Value;
-    }
-    #region Protected Methods
-
-    internal string GetActiveTemplate()
-    {
-        var templateName = CascadingTemplate;
-        if (Template != null)
-        {
-            templateName = Template;
-        }
-        if (templateName == null)
-        {
-            templateName = BlazorContextMenuSettings.DefaultTemplateName;
-        }
-
-        return templateName;
+        return Animation ?? CascadingAnimation ?? Settings.GetTemplate(GetActiveTemplate()).Animation;
     }
 
     protected string DisplayClassCalc
     {
         get
         {
-            var template = settings.GetTemplate(GetActiveTemplate());
-            var (showingAnimationClass, hiddenAnimationClass) = GetAnimationClasses(GetActiveAnimation());
-            return IsShowing ?
-                Helpers.AppendCssClasses(OverrideDefaultShownCssClass ?? template.DefaultCssOverrides.MenuShownCssClass,
-                    showingAnimationClass,
-                    ShownCssClass ?? settings.GetTemplate(GetActiveTemplate()).MenuShownCssClass) :
-                Helpers.AppendCssClasses(OverrideDefaultHiddenCssClass ?? template.DefaultCssOverrides.MenuHiddenCssClass,
-                    hiddenAnimationClass,
-                    HiddenCssClass ?? settings.GetTemplate(GetActiveTemplate()).MenuHiddenCssClass);
+            BlazorContextMenuTemplate template = Settings.GetTemplate(GetActiveTemplate());
+            DisplayClassRecord animationClasses = GetAnimationClasses(GetActiveAnimation());
+            return IsShowing
+                ? Helpers.AppendCssClasses(
+                    OverrideDefaultShownCssClass ?? template.DefaultCssOverrides.MenuShownCssClass,
+                    animationClasses.VisibleClass,
+                    ShownCssClass ?? Settings.GetTemplate(GetActiveTemplate()).MenuShownCssClass)
+                : Helpers.AppendCssClasses(
+                    OverrideDefaultHiddenCssClass ?? template.DefaultCssOverrides.MenuHiddenCssClass,
+                    animationClasses.HiddenClass,
+                    HiddenCssClass ?? Settings.GetTemplate(GetActiveTemplate()).MenuHiddenCssClass);
         }
     }
+
     protected string ListClassCalc
     {
         get
         {
-            var template = settings.GetTemplate(GetActiveTemplate());
-            return Helpers.AppendCssClasses((OverrideDefaultListCssClass ?? template.DefaultCssOverrides.MenuListCssClass),
-                (ListCssClass ?? settings.GetTemplate(GetActiveTemplate()).MenuListCssClass));
+            BlazorContextMenuTemplate template = Settings.GetTemplate(GetActiveTemplate());
+            return Helpers.AppendCssClasses(
+                OverrideDefaultListCssClass ?? template.DefaultCssOverrides.MenuListCssClass,
+                ListCssClass ?? Settings.GetTemplate(GetActiveTemplate()).MenuListCssClass);
         }
     }
 
-    protected (string showingClass, string hiddenClass) GetAnimationClasses(Animation animation)
+    protected record DisplayClassRecord(string VisibleClass = "", string HiddenClass = "");
+
+    private const string _ANIMATIONS_CLASS = "blazor-context-menu__animations";
+
+    protected static DisplayClassRecord GetAnimationClasses(Animation animation)
     {
-        switch (animation)
+        return animation switch
         {
-            case Services.Animation.None:
-                return ("", "");
-            case Services.Animation.FadeIn:
-                return ("blazor-context-menu__animations--fadeIn-shown", "blazor-context-menu__animations--fadeIn");
-            case Services.Animation.Grow:
-                return ("blazor-context-menu__animations--grow-shown", "blazor-context-menu__animations--grow");
-            case Services.Animation.Slide:
-                return ("blazor-context-menu__animations--slide-shown", "blazor-context-menu__animations--slide");
-            case Services.Animation.Zoom:
-                return ("blazor-context-menu__animations--zoom-shown", "blazor-context-menu__animations--zoom");
-            default:
-                throw new Exception("Animation not supported");
-        }
+            BlazorContextMenu.Animation.None => new DisplayClassRecord(),
+            BlazorContextMenu.Animation.FadeIn => new DisplayClassRecord
+            (
+                $"{_ANIMATIONS_CLASS}--fadeIn-shown",
+                $"{_ANIMATIONS_CLASS}--fadeIn"
+            ),
+            BlazorContextMenu.Animation.Grow => new DisplayClassRecord
+            (
+                $"{_ANIMATIONS_CLASS}--grow-shown",
+                $"{_ANIMATIONS_CLASS}--grow"
+            ),
+            BlazorContextMenu.Animation.Slide => new DisplayClassRecord
+            (
+                $"{_ANIMATIONS_CLASS}--slide-shown",
+                $"{_ANIMATIONS_CLASS}--slide"
+            ),
+            BlazorContextMenu.Animation.Zoom => new DisplayClassRecord
+            (
+                $"{_ANIMATIONS_CLASS}--zoom-shown",
+                $"{_ANIMATIONS_CLASS}--zoom"
+            ),
+            _ => throw new Exception("Animation not supported")
+        };
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Id))
-        {
-            throw new ArgumentNullException(nameof(Id));
-        }
-        contextMenuStorage.Register(this);
+
+        ContextMenuStorage.Register(this);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!contextMenuHandler.ReferencePassedToJs)
+        if (!ContextMenuHandler.ReferencePassedToJs)
         {
-            await jsRuntime.InvokeAsync<object>("blazorContextMenu.SetMenuHandlerReference", DotNetObjectReference.Create(contextMenuHandler));
-            contextMenuHandler.ReferencePassedToJs = true;
+            await JsRuntime.InvokeAsync<object>("blazorContextMenu.SetMenuHandlerReference",
+                DotNetObjectReference.Create(ContextMenuHandler));
+            ContextMenuHandler.ReferencePassedToJs = true;
         }
     }
 
-    public override void Dispose()
     #endregion
 
     #region Internal Methods
 
+    internal string GetActiveTemplate()
     {
-        base.Dispose();
-        contextMenuStorage.Unregister(this);
+        return Template ?? CascadingTemplate ?? BlazorContextMenuSettings.DEFAULT_TEMPLATE_NAME;
     }
-
+    
     internal async Task Show(string x, string y, string targetId = null, ContextMenuTrigger trigger = null)
     {
-
         if (trigger is null)
         {
-            var rootMenu = menuTreeTraverser.GetRootContextMenu(this);
+            ContextMenu rootMenu = MenuTreeTraverser.GetRootContextMenu(this);
             trigger = rootMenu?.GetTrigger();
         }
 
-        if (trigger != null)
-        {
+        if (trigger is not null)
             Data = trigger.Data;
-        }
 
         if (OnAppearing.HasDelegate)
         {
-            var eventArgs = new MenuAppearingEventArgs(Id, targetId, x, y, trigger, Data);
+            MenuAppearingEventArgs eventArgs = new(Id, targetId, x, y, trigger, Data);
             await OnAppearing.InvokeAsync(eventArgs);
+                
             x = eventArgs.X;
             y = eventArgs.Y;
+                
             if (eventArgs.PreventShow)
-            {
                 return;
-            }
         }
-
+        
         IsShowing = true;
         X = x;
         Y = y;
+        
         TargetId = targetId;
         Trigger = trigger;
-        await InvokeAsync(() => StateHasChanged());
+            
+        await InvokeAsync(StateHasChanged);
     }
 
     internal async Task<bool> Hide()
     {
         if (OnHiding.HasDelegate)
         {
-            var eventArgs = new MenuHidingEventArgs(Id, TargetId, X, Y, Trigger, Data);
+            MenuHidingEventArgs eventArgs = new(Id, TargetId, X, Y, Trigger, Data);
             await OnHiding.InvokeAsync(eventArgs);
             if (eventArgs.PreventHide)
-            {
                 return false;
-            }
         }
 
         IsShowing = false;
-        await InvokeAsync(() => StateHasChanged());
+        await InvokeAsync(StateHasChanged);
         return true;
     }
 
@@ -327,6 +320,12 @@ public abstract class ContextMenuBase : MenuTreeComponent
     
     #region IDisposable Implementation
 
+    public override void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        base.Dispose();
+        ContextMenuStorage.Unregister(this);
+    }
     
     #endregion
 }

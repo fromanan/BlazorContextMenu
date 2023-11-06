@@ -23,12 +23,7 @@ public class ContextMenuStorage : IContextMenuStorage
 
     public ContextMenuBase GetMenu(string id)
     {
-        if (_initializedMenus.ContainsKey(id))
-        {
-            return _initializedMenus[id];
-        }
-
-        return null;
+        return _initializedMenus.TryGetValue(id, out ContextMenuBase menu) ? menu : null;
     }
 
     #endregion

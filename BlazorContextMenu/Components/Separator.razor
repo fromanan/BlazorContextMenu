@@ -56,10 +56,10 @@
     {
         get
         {
-            var template = settings.GetTemplate(Template);
+            BlazorContextMenuTemplate template = Settings.GetTemplate(Template);
             return Helpers.AppendCssClasses(
-                (OverrideDefaultCssClass ?? template.DefaultCssOverrides.SeparatorCssClass),
-                (CssClass ?? settings.GetTemplate(Template).SeparatorCssClass));
+                OverrideDefaultCssClass ?? template.DefaultCssOverrides.SeparatorCssClass,
+                CssClass ?? Settings.GetTemplate(Template).SeparatorCssClass);
         }
     }
 
@@ -67,10 +67,10 @@
     {
         get
         {
-            var template = settings.GetTemplate(Template);
+            BlazorContextMenuTemplate template = Settings.GetTemplate(Template);
             return Helpers.AppendCssClasses(
-               (OverrideDefaultHrCssClass ?? template.DefaultCssOverrides.SeparatorHrCssClass),
-               (HrCssClass ?? settings.GetTemplate(Template).SeparatorHrCssClass));
+                OverrideDefaultHrCssClass ?? template.DefaultCssOverrides.SeparatorHrCssClass,
+                HrCssClass ?? Settings.GetTemplate(Template).SeparatorHrCssClass);
         }
     }
 
@@ -82,12 +82,10 @@
     {
         base.OnInitialized();
 
-        var rootMenu = menuTreeTraverser.GetRootContextMenu(this);
-        if (rootMenu == null)
-        {
+        if (MenuTreeTraverser.GetRootContextMenu(this) is null)
             throw new Exception("Separator component must be a child of a ContextMenu component");
-        }
-        var parentMenu = menuTreeTraverser.GetClosestContextMenu(this);
+
+        ContextMenuBase parentMenu = MenuTreeTraverser.GetClosestContextMenu(this);
         Template = parentMenu.GetActiveTemplate();
     }
 

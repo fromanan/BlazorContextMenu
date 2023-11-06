@@ -28,22 +28,19 @@ public class BlazorContextMenuService : IBlazorContextMenuService
 
     public async Task HideMenu(string id)
     {
-        var menu = _contextMenuStorage.GetMenu(id);
-        if (menu == null)
-        {
+        if (_contextMenuStorage.GetMenu(id) is null)
             throw new Exception($"No context menu with id '{id}' was found");
-        }
+
         await _jSRuntime.InvokeVoidAsync("blazorContextMenu.Hide", id);
     }
-        
+
     public async Task ShowMenu(string id, int x, int y, object data)
     {
-        var menu = _contextMenuStorage.GetMenu(id);
-        if(menu == null)
-        {
+        if (_contextMenuStorage.GetMenu(id) is not { } menu)
             throw new Exception($"No context menu with id '{id}' was found");
-        }
+
         menu.Data = data;
+
         await _jSRuntime.InvokeVoidAsync("blazorContextMenu.ManualShow", id, x, y);
     }
 
@@ -52,7 +49,8 @@ public class BlazorContextMenuService : IBlazorContextMenuService
         return ShowMenu(id, x, y, null);
     }
 
-    public async Task<bool> IsMenuShown(string id) => await _jSRuntime.InvokeAsync<bool>("blazorContextMenu.IsMenuShown", id);
+    public async Task<bool> IsMenuShown(string id) =>
+        await _jSRuntime.InvokeAsync<bool>("blazorContextMenu.IsMenuShown", id);
 
     #endregion
 }
