@@ -28,7 +28,7 @@
 
   <Target Name="Minification" BeforeTargets="BeforeBuild">
     <Message Importance="high" Text="Minifying static assets ..." />
-    <Exec Command="npm run minify" />
+    <!--<Exec Command="npm run minify" />-->
   </Target>
   
   <ItemGroup>
