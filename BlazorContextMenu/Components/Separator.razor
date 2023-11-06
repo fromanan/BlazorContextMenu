@@ -6,10 +6,11 @@
 @namespace BlazorContextMenu
 
 <li @attributes="@Attributes" id="@Id" class="@ClassCalc">
-    <hr class="@HrClassCalc" />
+    <hr class="@HrClassCalc"/>
 </li>
 
-@code{
+@code
+{
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }

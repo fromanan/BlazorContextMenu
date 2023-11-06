@@ -40,6 +40,10 @@ public class BlazorContextMenuService : IBlazorContextMenuService
     private readonly IJSRuntime _jSRuntime;
     private readonly IContextMenuStorage _contextMenuStorage;
 
+    #endregion
+
+    #region Constructor
+
     public BlazorContextMenuService(IJSRuntime jSRuntime, IContextMenuStorage contextMenuStorage)
     {
         _jSRuntime = jSRuntime;

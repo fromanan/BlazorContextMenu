@@ -1,4 +1,5 @@
 ﻿@inherits ContextMenuBase
+
 @namespace BlazorContextMenu
 
 <div @attributes="@Attributes" class="@($"{BaseClass} {ClassCalc} {DisplayClassCalc}")" id="@Id" style="@($"left:{X}px;top:{Y}px;z-index:{ZIndex};")" data-autohide="@AutoHide.ToString().ToLower()">
@@ -16,8 +17,9 @@
     }
 </div>
 
+@code
+{
 
-@code{
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     protected override string BaseClass => "blazor-context-submenu blazor-context-menu__wrapper";

@@ -12,34 +12,31 @@ public abstract class MenuTreeComponent : ComponentBase, IDisposable
 
     public IReadOnlyList<MenuTreeComponent> GetChildComponents()
     {
-        return _childComponents.AsReadOnly();
+        return ChildComponents.AsReadOnly();
     }
 
     protected void RegisterChild(MenuTreeComponent childComponent)
     {
-        _childComponents.Add(childComponent);
+        ChildComponents.Add(childComponent);
     }
 
     protected void RemoveChild(MenuTreeComponent childComponent)
     {
-        _childComponents.Remove(childComponent);
+        ChildComponents.Remove(childComponent);
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if(ParentComponent != null)
-        {
-            ParentComponent.RegisterChild(this);
-            ParentComponent.StateHasChanged();
-        }
+        if (ParentComponent is null)
+            return;
+        ParentComponent.RegisterChild(this);
+        ParentComponent.StateHasChanged();
     }
 
     public virtual void Dispose()
     {
-        if (ParentComponent != null)
-        {
-            ParentComponent.RemoveChild(this);
-        }
+        GC.SuppressFinalize(this);
+        ParentComponent?.RemoveChild(this);
     }
 }
