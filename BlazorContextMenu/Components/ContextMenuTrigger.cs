@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Net.Http;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Routing;
+using BlazorContextMenu;
 using BlazorContextMenu.Services;
-using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Components.RenderTree;
-using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.CompilerServices;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.JSInterop;
 
 namespace BlazorContextMenu;
 

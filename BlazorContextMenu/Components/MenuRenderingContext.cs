@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BlazorContextMenu;
+﻿namespace BlazorContextMenu;
 
 public class MenuRenderingContext
 {
